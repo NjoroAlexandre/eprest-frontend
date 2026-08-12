@@ -1,29 +1,44 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-
-const poles = [
-  { titre: "SaaS", description: "Des logiciels prêts à l'emploi, hébergés et facturés par abonnement.", lien: "/pole-saas" },
-  { titre: "Mise en production & DevOps", description: "Déploiement, industrialisation et fiabilisation de vos systèmes.", lien: "/pole-devops" },
-  { titre: "Digitalisation & Formation IA", description: "Accompagnement à la transformation numérique et montée en compétence IA.", lien: "/pole-ia" },
-];
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Accueil() {
+  const { langue, t } = useLanguage();
+
+  const poles = [
+    {
+      titre: "SaaS",
+      description: langue === "fr" ? "Des logiciels prêts à l'emploi, hébergés et facturés par abonnement." : "Ready-to-use software, hosted and billed by subscription.",
+      lien: "/pole-saas",
+    },
+    {
+      titre: langue === "fr" ? "Mise en production & DevOps" : "Production & DevOps",
+      description: langue === "fr" ? "Déploiement, industrialisation et fiabilisation de vos systèmes." : "Deployment, industrialization and reliability of your systems.",
+      lien: "/pole-devops",
+    },
+    {
+      titre: langue === "fr" ? "Digitalisation & Formation IA" : "Digitalization & AI Training",
+      description: langue === "fr" ? "Accompagnement à la transformation numérique et montée en compétence IA." : "Support for digital transformation and AI skills development.",
+      lien: "/pole-ia",
+    },
+  ];
+
   return (
     <>
       <Helmet>
-        <title>E PREST — SaaS, DevOps & Digitalisation</title>
-        <meta name="description" content="E PREST accompagne votre transformation numérique : logiciels SaaS, mise en production, DevOps et formation IA." />
+        <title>{langue === "fr" ? "E PREST — SaaS, DevOps & Digitalisation" : "E PREST — SaaS, DevOps & Digitalization"}</title>
+        <meta name="description" content={t("heroTexte")} />
       </Helmet>
 
       <section className="bg-gradient-to-b from-primary/5 to-white px-4 py-20 text-center">
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-4xl font-bold text-primary-dark md:text-5xl">E PREST, votre partenaire technologique de confiance</h1>
-          <p className="mt-4 text-lg text-gray-600">SaaS, mise en production et digitalisation — nous accompagnons votre transformation numérique de bout en bout.</p>
+          <h1 className="text-4xl font-bold text-primary-dark md:text-5xl">{t("heroTitre")}</h1>
+          <p className="mt-4 text-lg text-gray-600">{t("heroTexte")}</p>
         </div>
       </section>
 
       <section id="poles" className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="mb-10 text-center text-3xl font-bold text-primary-dark">Nos trois pôles d'expertise</h2>
+        <h2 className="mb-10 text-center text-3xl font-bold text-primary-dark">{t("troisPoles")}</h2>
         <div className="grid gap-6 md:grid-cols-3">
           {poles.map((pole) => (
             <Link key={pole.lien} to={pole.lien} className="rounded-xl border border-gray-200 p-6 shadow-sm transition hover:shadow-md">

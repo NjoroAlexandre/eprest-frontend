@@ -19,8 +19,7 @@ export default function AdminReferences() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="mb-2 text-2xl font-bold text-primary-dark">Gestion des références</h1>
-      <p className="mb-8 text-sm text-gray-600">Données d'exemple — connectées au backend prochainement (GET/PATCH /references).</p>
+      <h1 className="mb-8 text-2xl font-bold text-primary-dark">Gestion des références</h1>
 
       <div className="overflow-x-auto rounded-xl border border-gray-200">
         <table className="w-full text-left text-sm">

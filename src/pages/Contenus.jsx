@@ -18,15 +18,13 @@ export default function Contenus() {
   };
 
   const handleSave = () => {
-    // Ho ampiana any aoriana: appel API mankany amin'ny backend (PATCH /pages/:slug)
     console.log(page);
     setSauvegarde(true);
   };
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-16">
-      <h1 className="mb-2 text-2xl font-bold text-primary-dark">Gestion des contenus</h1>
-      <p className="mb-8 text-sm text-gray-600">Données d'exemple — connectées au backend prochainement (GET/PATCH /pages).</p>
+      <h1 className="mb-8 text-2xl font-bold text-primary-dark">Gestion des contenus</h1>
 
       <div className="mb-6 flex gap-2">
         {pages.map((p) => (

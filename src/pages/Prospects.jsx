@@ -9,8 +9,7 @@ const typeLabel = { demo: "Démo", devis: "Devis", essai: "Essai" };
 export default function Prospects() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="mb-2 text-2xl font-bold text-primary-dark">Prospects</h1>
-      <p className="mb-8 text-sm text-gray-600">Données d'exemple — connectées au backend prochainement (GET /leads).</p>
+      <h1 className="mb-8 text-2xl font-bold text-primary-dark">Prospects</h1>
 
       <div className="overflow-x-auto rounded-xl border border-gray-200">
         <table className="w-full text-left text-sm">

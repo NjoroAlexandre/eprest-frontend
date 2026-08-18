@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Devis() {
   const { langue } = useLanguage();
   const [typeClient, setTypeClient] = useState("particulier");
-  const [formData, setFormData] = useState({ nom: "", entreprise: "", tailleEntreprise: "", besoin: "", email: "" });
+  const [formData, setFormData] = useState({ nom: "", entreprise: "", tailleEntreprise: "", email: "", sujet: "", message: "" });
   const [erreurs, setErreurs] = useState({});
   const [envoye, setEnvoye] = useState(false);
 
@@ -23,7 +24,9 @@ export default function Devis() {
       particulier: "Un particulier",
       entreprise: "Une entreprise",
       nom: "Nom complet",
+      nomPlaceholder: "Ex. Rakoto Jean",
       entrepriseLabel: "Entreprise",
+      entreprisePlaceholder: "Ex. Société ABC",
       taille: "Taille de l'entreprise",
       selectionner: "Sélectionner",
       taille1: "1 à 10 employés",
@@ -31,16 +34,21 @@ export default function Devis() {
       taille3: "51 à 200 employés",
       taille4: "Plus de 200 employés",
       email: "Email",
-      besoin: "Décrivez votre besoin",
+      emailPlaceholder: "Ex. jean.rakoto@gmail.com",
+      sujet: "Sujet",
+      sujetPlaceholder: "Ex. Devis pour une application de gestion, un site vitrine...",
+      message: "Message",
+      messagePlaceholder: "Décrivez votre projet — objectifs, périmètre, délai souhaité, budget approximatif si vous en avez un.",
       envoyer: "Envoyer la demande",
+      accroche: "Vos informations restent confidentielles et ne servent qu'à vous recontacter.",
       merci: "Merci, votre demande de devis a bien été envoyée.",
       erreurNom: "Le nom complet est requis.",
       erreurNomCourt: "Le nom doit contenir au moins 2 caractères.",
       erreurEntreprise: "Le nom de l'entreprise est requis.",
       erreurEmail: "L'email est requis.",
       erreurEmailFormat: "Format d'email invalide (ex. nom@exemple.com).",
-      erreurBesoin: "Merci de décrire votre besoin.",
-      erreurBesoinCourt: "Merci de détailler un peu plus (10 caractères minimum).",
+      erreurMessage: "Merci de décrire votre besoin.",
+      erreurMessageCourt: "Merci de détailler un peu plus (10 caractères minimum).",
     },
     en: {
       titre: "Request a quote",
@@ -49,7 +57,9 @@ export default function Devis() {
       particulier: "An individual",
       entreprise: "A company",
       nom: "Full name",
+      nomPlaceholder: "E.g. John Doe",
       entrepriseLabel: "Company",
+      entreprisePlaceholder: "E.g. ABC Company",
       taille: "Company size",
       selectionner: "Select",
       taille1: "1 to 10 employees",
@@ -57,16 +67,21 @@ export default function Devis() {
       taille3: "51 to 200 employees",
       taille4: "More than 200 employees",
       email: "Email",
-      besoin: "Describe your need",
+      emailPlaceholder: "E.g. john.doe@gmail.com",
+      sujet: "Subject",
+      sujetPlaceholder: "E.g. Quote for a management app, a showcase website...",
+      message: "Message",
+      messagePlaceholder: "Describe your project — goals, scope, desired timeline, rough budget if you have one.",
       envoyer: "Send request",
+      accroche: "Your information stays confidential and is only used to get back to you.",
       merci: "Thank you, your quote request has been sent.",
       erreurNom: "Full name is required.",
       erreurNomCourt: "Name must contain at least 2 characters.",
       erreurEntreprise: "Company name is required.",
       erreurEmail: "Email is required.",
       erreurEmailFormat: "Invalid email format (e.g. name@example.com).",
-      erreurBesoin: "Please describe your need.",
-      erreurBesoinCourt: "Please provide more detail (10 characters minimum).",
+      erreurMessage: "Please describe your need.",
+      erreurMessageCourt: "Please provide more detail (10 characters minimum).",
     },
   };
   const txt = textes[langue];
@@ -91,10 +106,10 @@ export default function Devis() {
       nouvellesErreurs.email = txt.erreurEmailFormat;
     }
 
-    if (!formData.besoin.trim()) {
-      nouvellesErreurs.besoin = txt.erreurBesoin;
-    } else if (formData.besoin.trim().length < 10) {
-      nouvellesErreurs.besoin = txt.erreurBesoinCourt;
+    if (!formData.message.trim()) {
+      nouvellesErreurs.message = txt.erreurMessage;
+    } else if (formData.message.trim().length < 10) {
+      nouvellesErreurs.message = txt.erreurMessageCourt;
     }
 
     if (Object.keys(nouvellesErreurs).length > 0) {
@@ -108,6 +123,18 @@ export default function Devis() {
 
   return (
     <section className="mx-auto max-w-2xl px-4 py-20">
+      <Helmet>
+        <title>{langue === "fr" ? "Demander un devis — E PREST" : "Request a quote — E PREST"}</title>
+        <meta
+          name="description"
+          content={
+            langue === "fr"
+              ? "Demandez un devis personnalisé à E PREST pour votre projet SaaS, DevOps ou digitalisation."
+              : "Request a tailored quote from E PREST for your SaaS, DevOps or digitalization project."
+          }
+        />
+      </Helmet>
+
       <h1 className="mb-2 text-center text-3xl font-bold text-primary-dark">{txt.titre}</h1>
       <p className="mb-8 text-center text-gray-600">{txt.sousTitre}</p>
 
@@ -149,9 +176,10 @@ export default function Devis() {
               id="nom"
               type="text"
               name="nom"
+              placeholder={txt.nomPlaceholder}
               value={formData.nom}
               onChange={handleChange}
-              className={`w-full rounded-lg border px-4 py-2 focus:outline-none ${erreurs.nom ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
+              className={`w-full rounded-lg border px-4 py-2 placeholder:text-gray-400 focus:outline-none ${erreurs.nom ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
             />
             {erreurs.nom && <p className="mt-1 text-sm text-red-600">{erreurs.nom}</p>}
           </div>
@@ -164,9 +192,10 @@ export default function Devis() {
                   id="entreprise"
                   type="text"
                   name="entreprise"
+                  placeholder={txt.entreprisePlaceholder}
                   value={formData.entreprise}
                   onChange={handleChange}
-                  className={`w-full rounded-lg border px-4 py-2 focus:outline-none ${erreurs.entreprise ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
+                  className={`w-full rounded-lg border px-4 py-2 placeholder:text-gray-400 focus:outline-none ${erreurs.entreprise ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
                 />
                 {erreurs.entreprise && <p className="mt-1 text-sm text-red-600">{erreurs.entreprise}</p>}
               </div>
@@ -190,29 +219,46 @@ export default function Devis() {
               id="email"
               type="email"
               name="email"
+              placeholder={txt.emailPlaceholder}
               value={formData.email}
               onChange={handleChange}
-              className={`w-full rounded-lg border px-4 py-2 focus:outline-none ${erreurs.email ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
+              className={`w-full rounded-lg border px-4 py-2 placeholder:text-gray-400 focus:outline-none ${erreurs.email ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
             />
             {erreurs.email && <p className="mt-1 text-sm text-red-600">{erreurs.email}</p>}
           </div>
 
           <div>
-            <label htmlFor="besoin" className="mb-1 block text-sm font-medium text-gray-700">{txt.besoin}</label>
-            <textarea
-              id="besoin"
-              name="besoin"
-              rows="4"
-              value={formData.besoin}
+            <label htmlFor="sujet" className="mb-1 block text-sm font-medium text-gray-700">{txt.sujet}</label>
+            <input
+              id="sujet"
+              type="text"
+              name="sujet"
+              placeholder={txt.sujetPlaceholder}
+              value={formData.sujet}
               onChange={handleChange}
-              className={`w-full rounded-lg border px-4 py-2 focus:outline-none ${erreurs.besoin ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 placeholder:text-gray-400 focus:border-primary focus:outline-none"
             />
-            {erreurs.besoin && <p className="mt-1 text-sm text-red-600">{erreurs.besoin}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="message" className="mb-1 block text-sm font-medium text-gray-700">{txt.message}</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              placeholder={txt.messagePlaceholder}
+              value={formData.message}
+              onChange={handleChange}
+              className={`w-full rounded-lg border px-4 py-2 placeholder:text-gray-400 focus:outline-none ${erreurs.message ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-primary"}`}
+            />
+            {erreurs.message && <p className="mt-1 text-sm text-red-600">{erreurs.message}</p>}
           </div>
 
           <button type="submit" className="w-full rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">
             {txt.envoyer}
           </button>
+
+          <p className="text-center text-sm italic text-gray-500">{txt.accroche}</p>
         </form>
       )}
     </section>

@@ -1,64 +1,130 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useLanguage } from "../context/LanguageContext";
-
-const references = [
-  {
-    client: "Client A",
-    pole: { fr: "SaaS", en: "SaaS" },
-    contexte: { fr: "Besoin d'une plateforme de gestion interne.", en: "Needed an internal management platform." },
-    resultat: { fr: "Déploiement en 3 mois, adoption à 95% des équipes.", en: "Deployed in 3 months, 95% team adoption." },
-  },
-  {
-    client: "Client B",
-    pole: { fr: "Mise en production & DevOps", en: "Production & DevOps" },
-    contexte: { fr: "Infrastructure instable, déploiements manuels.", en: "Unstable infrastructure, manual deployments." },
-    resultat: { fr: "Pipeline CI/CD automatisé, réduction des incidents de 60%.", en: "Automated CI/CD pipeline, 60% fewer incidents." },
-  },
-  {
-    client: "Client C",
-    pole: { fr: "Digitalisation & Formation IA", en: "Digitalization & AI Training" },
-    contexte: { fr: "Équipes non formées aux outils IA.", en: "Teams untrained on AI tools." },
-    resultat: { fr: "Formation de 40 collaborateurs, gain de productivité mesuré.", en: "40 employees trained, measurable productivity gains." },
-  },
-];
+import { useReferences } from "../context/ReferencesContext";
 
 export default function References() {
   const { langue } = useLanguage();
+  const { references } = useReferences();
+  const [filtre, setFiltre] = useState("tous");
+
+  const textes = {
+    fr: {
+      titre: "Nos références",
+      sousTitre: "Des projets concrets, menés avec nos clients.",
+      filtreTous: "Tous",
+      contexte: "Contexte :",
+      resultat: "Résultat :",
+      voirProjet: "Voir le projet →",
+      ctaTitre: "Un projet en tête ?",
+      ctaTexte: "Discutons de ce que E PREST peut construire pour vous.",
+      ctaBouton: "Démarrer une conversation",
+      aucune: "Aucune référence publiée pour le moment.",
+    },
+    en: {
+      titre: "Our references",
+      sousTitre: "Real projects, delivered with our clients.",
+      filtreTous: "All",
+      contexte: "Context:",
+      resultat: "Result:",
+      voirProjet: "View project →",
+      ctaTitre: "Have a project in mind?",
+      ctaTexte: "Let's discuss what E PREST can build for you.",
+      ctaBouton: "Start a conversation",
+      aucune: "No references published yet.",
+    },
+  };
+  const txt = textes[langue];
+
+  const filtres = [
+    { valeur: "tous", label: txt.filtreTous },
+    { valeur: "saas", label: "SaaS" },
+    { valeur: "devops", label: "DevOps" },
+    { valeur: "ia", label: langue === "fr" ? "IA" : "AI" },
+  ];
+
+  const referencesPubliees = references.filter((r) => r.publie);
+  const referencesFiltrees = filtre === "tous" ? referencesPubliees : referencesPubliees.filter((r) => r.pole === filtre);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20">
-      <Helmet>
-        <title>{langue === "fr" ? "Nos références — E PREST" : "Our references — E PREST"}</title>
-        <meta
-          name="description"
-          content={
-            langue === "fr"
-              ? "Découvrez les projets réalisés par E PREST pour ses clients."
-              : "Discover the projects carried out by E PREST for its clients."
-          }
-        />
-      </Helmet>
+    <>
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <Helmet>
+          <title>{txt.titre} — E PREST</title>
+          <meta
+            name="description"
+            content={
+              langue === "fr"
+                ? "Découvrez les projets réalisés par E PREST pour ses clients."
+                : "Discover the projects carried out by E PREST for its clients."
+            }
+          />
+        </Helmet>
 
-      <h1 className="mb-10 text-center text-3xl font-bold text-primary-dark">
-        {langue === "fr" ? "Nos références" : "Our references"}
-      </h1>
+        <h1 className="mb-2 text-center text-3xl font-bold text-primary-dark">{txt.titre}</h1>
+        <p className="mb-10 text-center text-gray-600">{txt.sousTitre}</p>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {references.map((ref) => (
-          <div key={ref.client} className="rounded-xl border border-gray-200 p-6 shadow-sm">
-            <span className="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              {ref.pole[langue]}
-            </span>
-            <h3 className="mb-2 text-lg font-semibold text-primary-dark">{ref.client}</h3>
-            <p className="mb-2 text-sm text-gray-600">
-              <strong>{langue === "fr" ? "Contexte :" : "Context:"}</strong> {ref.contexte[langue]}
-            </p>
-            <p className="text-sm text-gray-600">
-              <strong>{langue === "fr" ? "Résultat :" : "Result:"}</strong> {ref.resultat[langue]}
-            </p>
+        <div className="mb-10 flex justify-center gap-2">
+          {filtres.map((f) => (
+            <button
+              key={f.valeur}
+              onClick={() => setFiltre(f.valeur)}
+              className={`rounded-lg px-4 py-2 text-sm font-medium ${
+                filtre === f.valeur ? "bg-primary text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
+        {referencesFiltrees.length === 0 ? (
+          <p className="text-center text-gray-500">{txt.aucune}</p>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-3">
+            {referencesFiltrees.map((ref) => (
+              <div key={ref.id} className="flex flex-col rounded-xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                <div className="flex h-40 items-center justify-center rounded-t-xl bg-gradient-to-br from-primary to-primary-dark">
+                  <span className="text-4xl">📁</span>
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="mb-2 inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                    {ref.poleLabel[langue]}
+                  </span>
+                  <h3 className="mb-1 text-lg font-semibold text-primary-dark">{ref.titre[langue]}</h3>
+                  <p className="mb-3 text-xs font-medium text-gray-400">{ref.client}</p>
+                  <p className="mb-1 text-sm text-gray-600"><strong>{txt.contexte}</strong> {ref.contexte[langue]}</p>
+                  <p className="mb-4 text-sm text-gray-600"><strong>{txt.resultat}</strong> {ref.resultat[langue]}</p>
+
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {ref.tags.map((tag) => (
+                      <span key={tag} className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <span className="mt-auto text-sm font-semibold text-primary">{txt.voirProjet}</span>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </section>
+        )}
+      </section>
+
+      <section className="px-4 py-16">
+        <div className="mx-auto max-w-3xl rounded-2xl bg-primary-dark px-6 py-14 text-center text-white">
+          <h2 className="mb-3 text-2xl font-bold md:text-3xl">{txt.ctaTitre}</h2>
+          <p className="mb-8 text-white/70">{txt.ctaTexte}</p>
+          <Link
+            to="/contact"
+            className="inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary-dark hover:bg-gray-100"
+          >
+            {txt.ctaBouton}
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

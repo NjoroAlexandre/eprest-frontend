@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AppDataProvider } from "./context/AppDataContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { ReferencesProvider } from "./context/ReferencesContext";
 import App from "./App";
 import "./index.css";
 
@@ -12,9 +13,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <HelmetProvider>
       <LanguageProvider>
         <AppDataProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <ReferencesProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ReferencesProvider>
         </AppDataProvider>
       </LanguageProvider>
     </HelmetProvider>

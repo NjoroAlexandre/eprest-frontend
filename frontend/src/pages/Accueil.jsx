@@ -2,21 +2,54 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useLanguage } from "../context/LanguageContext";
 
+function IconSaaS() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+    </svg>
+  );
+}
+
+function IconDevOps() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+    </svg>
+  );
+}
+
+function IconIA() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2a4.5 4.5 0 0 0-4.5 4.5c0 1.36.63 2.57 1.6 3.37A5.5 5.5 0 0 0 8 14.5a5.5 5.5 0 0 0 4 5.3V22h0" />
+      <path d="M12 2a4.5 4.5 0 0 1 4.5 4.5c0 1.36-.63 2.57-1.6 3.37A5.5 5.5 0 0 1 16 14.5a5.5 5.5 0 0 1-4 5.3" />
+      <circle cx="12" cy="14.5" r="0.5" fill="currentColor" />
+    </svg>
+  );
+}
+
 export default function Accueil() {
   const { langue, t } = useLanguage();
 
   const poles = [
     {
+      numero: "01",
+      icone: <IconSaaS />,
       titre: "SaaS",
       description: langue === "fr" ? "Des logiciels prêts à l'emploi, hébergés et facturés par abonnement." : "Ready-to-use software, hosted and billed by subscription.",
       lien: "/pole-saas",
     },
     {
+      numero: "02",
+      icone: <IconDevOps />,
       titre: langue === "fr" ? "Mise en production & DevOps" : "Production & DevOps",
       description: langue === "fr" ? "Déploiement, industrialisation et fiabilisation de vos systèmes." : "Deployment, industrialization and reliability of your systems.",
       lien: "/pole-devops",
     },
     {
+      numero: "03",
+      icone: <IconIA />,
       titre: langue === "fr" ? "Digitalisation & Formation IA" : "Digitalization & AI Training",
       description: langue === "fr" ? "Accompagnement à la transformation numérique et montée en compétence IA." : "Support for digital transformation and AI skills development.",
       lien: "/pole-ia",
@@ -74,9 +107,21 @@ export default function Accueil() {
         <h2 className="mb-10 text-center text-3xl font-bold text-primary-dark">{t("troisPoles")}</h2>
         <div className="grid gap-6 md:grid-cols-3">
           {poles.map((pole) => (
-            <Link key={pole.lien} to={pole.lien} className="rounded-xl border border-gray-200 p-6 shadow-sm transition hover:shadow-md">
-              <h3 className="mb-2 text-xl font-semibold text-primary">{pole.titre}</h3>
-              <p className="text-gray-600">{pole.description}</p>
+            <Link
+              key={pole.lien}
+              to={pole.lien}
+              className="relative overflow-hidden rounded-xl border border-gray-200 p-6 shadow-sm transition hover:shadow-md"
+            >
+              <span className="absolute -right-2 -top-2 text-6xl font-black text-gray-100 select-none">
+                {pole.numero}
+              </span>
+              <div className="relative">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white">
+                  {pole.icone}
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-primary">{pole.titre}</h3>
+                <p className="text-gray-600">{pole.description}</p>
+              </div>
             </Link>
           ))}
         </div>

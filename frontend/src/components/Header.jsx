@@ -8,7 +8,7 @@ export default function Header() {
   const { langue, setLangue, t } = useLanguage();
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link to="/" className="text-xl font-bold text-primary" onClick={() => setMenuMobileOuvert(false)}>
           E PREST
@@ -69,7 +69,7 @@ export default function Header() {
       </div>
 
       {menuMobileOuvert && (
-        <div className="flex flex-col gap-1 border-t border-gray-200 px-4 py-3 md:hidden">
+        <div className="flex flex-col gap-1 border-t border-gray-200 bg-white px-4 py-3 md:hidden">
           <Link to="/pole-saas" onClick={() => setMenuMobileOuvert(false)} className="rounded-lg px-2 py-2 text-sm text-gray-600 hover:bg-gray-50">SaaS</Link>
           <Link to="/pole-devops" onClick={() => setMenuMobileOuvert(false)} className="rounded-lg px-2 py-2 text-sm text-gray-600 hover:bg-gray-50">
             {langue === "fr" ? "Mise en production & DevOps" : "Production & DevOps"}

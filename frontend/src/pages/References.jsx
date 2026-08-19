@@ -16,7 +16,7 @@ export default function References() {
       filtreTous: "Tous",
       contexte: "Contexte :",
       resultat: "Résultat :",
-      voirProjet: "Voir le projet →",
+      voirProjet: "Consulter l'étude de cas →",
       ctaTitre: "Un projet en tête ?",
       ctaTexte: "Discutons de ce que E PREST peut construire pour vous.",
       ctaBouton: "Démarrer une conversation",
@@ -28,7 +28,7 @@ export default function References() {
       filtreTous: "All",
       contexte: "Context:",
       resultat: "Result:",
-      voirProjet: "View project →",
+      voirProjet: "View case study →",
       ctaTitre: "Have a project in mind?",
       ctaTexte: "Let's discuss what E PREST can build for you.",
       ctaBouton: "Start a conversation",
@@ -85,9 +85,17 @@ export default function References() {
           <div className="grid gap-6 md:grid-cols-3">
             {referencesFiltrees.map((ref) => (
               <div key={ref.id} className="flex flex-col rounded-xl border border-gray-200 shadow-sm transition hover:shadow-md">
-                <div className="flex h-40 items-center justify-center rounded-t-xl bg-gradient-to-br from-primary to-primary-dark">
-                  <span className="text-4xl">📁</span>
-                </div>
+                {ref.imageUrl ? (
+                  <img
+                    src={ref.imageUrl}
+                    alt={ref.titre[langue]}
+                    className="h-40 w-full rounded-t-xl object-cover"
+                  />
+                ) : (
+                  <div className="flex h-40 items-center justify-center rounded-t-xl bg-gradient-to-br from-primary to-primary-dark">
+                    <span className="text-4xl">📁</span>
+                  </div>
+                )}
                 <div className="flex flex-1 flex-col p-6">
                   <span className="mb-2 inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                     {ref.poleLabel[langue]}
@@ -105,7 +113,9 @@ export default function References() {
                     ))}
                   </div>
 
-                  <span className="mt-auto text-sm font-semibold text-primary">{txt.voirProjet}</span>
+                  <Link to={`/references/${ref.id}`} className="mt-auto text-sm font-semibold text-primary hover:underline">
+                    {txt.voirProjet}
+                  </Link>
                 </div>
               </div>
             ))}

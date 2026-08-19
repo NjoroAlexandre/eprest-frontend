@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { useSiteSettings } from "../context/SiteSettingsContext";
 
 export default function Footer() {
   const { langue } = useLanguage();
+  const { parametres } = useSiteSettings();
 
   const textes = {
     fr: {
@@ -22,6 +24,7 @@ export default function Footer() {
       telephone: "Téléphone",
       adresse: "Adresse",
       droitsReserves: "Tous droits réservés.",
+      nonRenseigne: "Non renseigné",
     },
     en: {
       description: "Technology startup based in Antananarivo — SaaS, production deployment and digitalization.",
@@ -40,6 +43,7 @@ export default function Footer() {
       telephone: "Phone",
       adresse: "Address",
       droitsReserves: "All rights reserved.",
+      nonRenseigne: "Not provided",
     },
   };
   const txt = textes[langue];
@@ -49,7 +53,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            <p className="mb-3 text-lg font-bold text-white">E PREST</p>
+            <p className="mb-3 text-lg font-bold text-white">{parametres.nomEntreprise}</p>
             <p className="text-sm text-gray-400">{txt.description}</p>
           </div>
 
@@ -85,15 +89,15 @@ export default function Footer() {
         <div className="mt-10 border-t border-white/10 pt-8">
           <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">{txt.entrerEnContact}</h3>
           <div className="grid gap-4 text-sm text-gray-400 md:grid-cols-3">
-            <p>{txt.email} : <span className="text-gray-500">[email à compléter]</span></p>
-            <p>{txt.telephone} : <span className="text-gray-500">[téléphone à compléter]</span></p>
-            <p>{txt.adresse} : <span className="text-gray-500">Antananarivo, Madagascar</span></p>
+            <p>{txt.email} : <span className="text-gray-300">{parametres.email || txt.nonRenseigne}</span></p>
+            <p>{txt.telephone} : <span className="text-gray-300">{parametres.telephone || txt.nonRenseigne}</span></p>
+            <p>{txt.adresse} : <span className="text-gray-300">{parametres.adresse || txt.nonRenseigne}</span></p>
           </div>
         </div>
       </div>
 
       <div className="border-t border-white/10 px-4 py-6 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} E PREST Solutions. {txt.droitsReserves}
+        © {new Date().getFullYear()} {parametres.nomEntreprise} Solutions. {txt.droitsReserves}
       </div>
     </footer>
   );

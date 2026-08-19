@@ -1,27 +1,23 @@
 import { Helmet } from "react-helmet-async";
 import { useLanguage } from "../context/LanguageContext";
+import { useSiteSettings } from "../context/SiteSettingsContext";
 
 export default function MentionsLegales() {
   const { langue } = useLanguage();
+  const { parametres } = useSiteSettings();
 
   const textes = {
     fr: {
       titre: "Mentions légales",
       editeur: "Éditeur du site",
-      editeurTexte: "E PREST Solutions — [adresse complète à compléter]",
       hebergement: "Hébergement",
-      hebergementTexte: "[Nom de l'hébergeur à compléter]",
       contact: "Contact",
-      contactTexte: "[Email de contact à compléter]",
     },
     en: {
       titre: "Legal notice",
       editeur: "Site publisher",
-      editeurTexte: "E PREST Solutions — [full address to be completed]",
       hebergement: "Hosting",
-      hebergementTexte: "[Hosting provider name to be completed]",
       contact: "Contact",
-      contactTexte: "[Contact email to be completed]",
     },
   };
   const txt = textes[langue];
@@ -29,10 +25,10 @@ export default function MentionsLegales() {
   return (
     <section className="mx-auto max-w-3xl px-4 py-20">
       <Helmet>
-        <title>{txt.titre} — E PREST</title>
+        <title>{txt.titre} — {parametres.nomEntreprise}</title>
         <meta
           name="description"
-          content={langue === "fr" ? "Mentions légales du site E PREST Solutions." : "Legal notice for the E PREST Solutions website."}
+          content={langue === "fr" ? `Mentions légales du site ${parametres.nomEntreprise}.` : `Legal notice for the ${parametres.nomEntreprise} website.`}
         />
       </Helmet>
 
@@ -41,17 +37,17 @@ export default function MentionsLegales() {
       <div className="space-y-6 text-gray-600">
         <div>
           <h2 className="mb-2 text-lg font-semibold text-primary">{txt.editeur}</h2>
-          <p>{txt.editeurTexte}</p>
+          <p>{parametres.mentionsLegales.editeur}</p>
         </div>
 
         <div>
           <h2 className="mb-2 text-lg font-semibold text-primary">{txt.hebergement}</h2>
-          <p>{txt.hebergementTexte}</p>
+          <p>{parametres.mentionsLegales.hebergement}</p>
         </div>
 
         <div>
           <h2 className="mb-2 text-lg font-semibold text-primary">{txt.contact}</h2>
-          <p>{txt.contactTexte}</p>
+          <p>{parametres.mentionsLegales.contact}</p>
         </div>
       </div>
     </section>

@@ -8,7 +8,9 @@ export default function ReferenceDetail() {
   const { langue } = useLanguage();
   const { references } = useReferences();
 
-  const reference = references.find((r) => String(r.id) === id && r.publie);
+  const reference = references.find(
+    (r) => String(r.id) === id && r.publie
+  );
 
   const textes = {
     fr: {
@@ -17,7 +19,8 @@ export default function ReferenceDetail() {
       resultat: "Résultat",
       voirSite: "Voir le site du projet",
       introuvable: "Projet introuvable",
-      introuvableTexte: "Ce projet n'existe pas ou n'est plus disponible.",
+      introuvableTexte:
+        "Ce projet n'existe pas ou n'est plus disponible.",
     },
     en: {
       retour: "← Back to references",
@@ -25,17 +28,30 @@ export default function ReferenceDetail() {
       resultat: "Result",
       voirSite: "Visit project site",
       introuvable: "Project not found",
-      introuvableTexte: "This project does not exist or is no longer available.",
+      introuvableTexte:
+        "This project does not exist or is no longer available.",
     },
   };
+
   const txt = textes[langue];
 
   if (!reference) {
     return (
       <section className="mx-auto flex min-h-[50vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
-        <h1 className="mb-4 text-2xl font-bold text-primary-dark">{txt.introuvable}</h1>
-        <p className="mb-6 text-gray-600">{txt.introuvableTexte}</p>
-        <Link to="/references" className="text-sm font-semibold text-primary hover:underline">{txt.retour}</Link>
+        <h1 className="mb-4 text-2xl font-bold text-primary-dark">
+          {txt.introuvable}
+        </h1>
+
+        <p className="mb-6 text-gray-600">
+          {txt.introuvableTexte}
+        </p>
+
+        <Link
+          to="/references"
+          className="text-sm font-semibold text-primary hover:underline"
+        >
+          {txt.retour}
+        </Link>
       </section>
     );
   }
@@ -44,10 +60,17 @@ export default function ReferenceDetail() {
     <section className="mx-auto max-w-3xl px-4 py-16">
       <Helmet>
         <title>{reference.titre[langue]} — E PREST</title>
-        <meta name="description" content={reference.contexte[langue]} />
+
+        <meta
+          name="description"
+          content={reference.contexte[langue]}
+        />
       </Helmet>
 
-      <Link to="/references" className="mb-6 inline-block text-sm font-medium text-gray-500 hover:text-primary">
+      <Link
+        to="/references"
+        className="mb-6 inline-block text-sm font-medium text-gray-500 hover:text-primary"
+      >
         {txt.retour}
       </Link>
 
@@ -66,29 +89,48 @@ export default function ReferenceDetail() {
       <span className="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
         {reference.poleLabel[langue]}
       </span>
-      <h1 className="mb-1 text-3xl font-bold text-primary-dark">{reference.titre[langue]}</h1>
-      <p className="mb-6 text-sm font-medium text-gray-400">{reference.client}</p>
+
+      <h1 className="mb-1 text-3xl font-bold text-primary-dark">
+        {reference.titre[langue]}
+      </h1>
+
+      <p className="mb-6 text-sm font-medium text-gray-400">
+        {reference.client}
+      </p>
 
       <div className="mb-6 flex flex-wrap gap-2">
         {reference.tags.map((tag) => (
-          <span key={tag} className="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-600">
+          <span
+            key={tag}
+            className="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-600"
+          >
             {tag}
           </span>
         ))}
       </div>
 
       <div className="mb-6">
-        <h2 className="mb-2 text-lg font-semibold text-primary-dark">{txt.contexte}</h2>
-        <p className="text-gray-600">{reference.contexte[langue]}</p>
+        <h2 className="mb-2 text-lg font-semibold text-primary-dark">
+          {txt.contexte}
+        </h2>
+
+        <p className="text-gray-600">
+          {reference.contexte[langue]}
+        </p>
       </div>
 
       <div className="mb-8">
-        <h2 className="mb-2 text-lg font-semibold text-primary-dark">{txt.resultat}</h2>
-        <p className="text-gray-600">{reference.resultat[langue]}</p>
+        <h2 className="mb-2 text-lg font-semibold text-primary-dark">
+          {txt.resultat}
+        </h2>
+
+        <p className="text-gray-600">
+          {reference.resultat[langue]}
+        </p>
       </div>
 
       {reference.lienProjet && (
-        
+        <a
           href={reference.lienProjet}
           target="_blank"
           rel="noopener noreferrer"

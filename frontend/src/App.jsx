@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout";
-import AdminLayout from "./layouts/AdminLayout";
 import AdminAuthLayout from "./layouts/AdminAuthLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import Accueil from "./pages/Accueil";
 import Contact from "./pages/Contact";
 import PoleSaaS from "./pages/PoleSaaS";
@@ -10,6 +10,7 @@ import PoleIA from "./pages/PoleIA";
 import APropos from "./pages/APropos";
 import MentionsLegales from "./pages/MentionsLegales";
 import References from "./pages/References";
+import ReferenceDetail from "./pages/ReferenceDetail";
 import Catalogue from "./pages/Catalogue";
 import Devis from "./pages/Devis";
 import Essai from "./pages/Essai";
@@ -22,6 +23,7 @@ import AdminReferences from "./pages/AdminReferences";
 import Contenus from "./pages/Contenus";
 import AdminBlog from "./pages/AdminBlog";
 import AdminAnalytics from "./pages/AdminAnalytics";
+import AdminParametres from "./pages/AdminParametres";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -36,6 +38,7 @@ export default function App() {
         <Route path="/a-propos" element={<APropos />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/references" element={<References />} />
+        <Route path="/references/:id" element={<ReferenceDetail />} />
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/devis" element={<Devis />} />
         <Route path="/essai" element={<Essai />} />
@@ -55,6 +58,7 @@ export default function App() {
         <Route path="/admin/contenus" element={<Contenus />} />
         <Route path="/admin/blog" element={<AdminBlog />} />
         <Route path="/admin/analytics" element={<AdminAnalytics />} />
+        <Route path="/admin/parametres" element={<AdminParametres />} />
       </Route>
     </Routes>
   );

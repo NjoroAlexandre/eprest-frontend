@@ -7,6 +7,7 @@ const sections = [
   { titre: "Contenus", description: "Modifier les pages (Accueil, À propos, ...)", lien: "/admin/contenus" },
   { titre: "Actualités", description: "Publier ou supprimer des articles de blog", lien: "/admin/blog" },
   { titre: "Tableau de suivi", description: "Visites, conversions et statistiques du chatbot", lien: "/admin/analytics" },
+  { titre: "Paramètres", description: "Logo, contact et mentions légales du site", lien: "/admin/parametres" },
 ];
 
 export default function Dashboard() {

@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { useSiteSettings } from "../context/SiteSettingsContext";
 
 export default function Header() {
   const [poleOuvert, setPoleOuvert] = useState(false);
   const [menuMobileOuvert, setMenuMobileOuvert] = useState(false);
   const { langue, setLangue, t } = useLanguage();
+  const { parametres } = useSiteSettings();
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link to="/" className="text-xl font-bold text-primary" onClick={() => setMenuMobileOuvert(false)}>
-          E PREST
+        <Link to="/" className="flex items-center gap-2" onClick={() => setMenuMobileOuvert(false)}>
+          {parametres.logoUrl ? (
+            <img src={parametres.logoUrl} alt={parametres.nomEntreprise} className="h-8" />
+          ) : (
+            <span className="text-xl font-bold text-primary">{parametres.nomEntreprise}</span>
+          )}
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
